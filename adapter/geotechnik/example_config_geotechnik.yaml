@@ -1,0 +1,239 @@
+### Beispielkonfiguration ###
+
+# Spezifikation der Eingangsdaten
+EINGANGSDATEN:
+  # Spezifikation der Panoramas
+  PANORAMAS:
+    # Pfad zum Basisverzeichnis der Panoramas
+    VERZEICHNIS: /Pfad/zum/Basisverzeichnis/der/Panoramas
+    # (Optional) Höhe eines Panoramas in px
+    HOEHE: 4096
+    # (Optional) Breite eines Panoramas in px
+    BREITE: 8192
+    # Spezifikation der Geodaten mit Aufnahmepunkten und Metadaten
+    AUFNAHMEPUNKTE:
+      # Pfad zur .shp- oder .gpkg-Datei
+      PFAD: /Pfad/zu/Aufnahmepunkte.gpkg  # Mit Skript erzeuge_aufnahmepunkte.py zu erzeugen!
+      # (Optional) Basis der ID
+      ID_BASIS: 10  # Standard: 36
+      # Spezifikation der in den Geodaten verwendeten Felder
+      FELDER:
+        # ID des Panoramas
+        ID: image_id
+        # Aufnahmezeitpunkt des Panoramas
+        AUFNAHMEZEITPUNKT: time_stamp
+        # Aufnahmewinkel des Panoramas relativ zu Norden (Yaw)
+        AUFNAHMERICHTUNG: yaw
+        # (Optional) Nickwinkel des Aufnahmefahrzeugs (Pitch)
+        AUFNAHMEPITCH: pitch
+        # (Optional) Rollwinkel des Aufnahmefahrzeugs (Roll)
+        AUFNAHMEROLL: roll
+        # Aufnahmehöhe des Panoramas
+        AUFNAHMEHOEHE: height
+        # (Optional) Relativer Pfad zum Panorama ausgehend vom Basisverzeichnis
+        PANORAMA_PFAD: image_path
+        # (Optional) Relativer Pfad zur Maske ausgehend vom Basisverzeichnis
+        MASKEN_PFAD:
+    # (Optional) Art der Ausrichtung des Panoramas
+    AUSRICHTUNG: Recording_Direction_Grid  # Mögliche Werte: Geographic, Grid, Recording_Direction, Recording_Direction_Grid | Standard: Geographic
+    # (Optional) Pfad zur Maske, die das Aufnahmefahrzeug maskiert
+    MASKEN_PFAD: adapter/geotechnik/data/car_mask_front.png  # Standard: data/images/car_mask.png
+  # Spezifikation der Punktwolken
+  PUNKTWOLKEN:
+    # Pfad zum Basisverzeichnis der Punktwolken
+    VERZEICHNIS: /Pfad/zum/Basisverzeichnis/der/Punktwolken  # Mit Skript punktwolken_kacheln.py zu erzeugen!
+    # (Optional) Art der Dateinamen der Punktwolken
+    ID_TYP:  # Mögliche Werte: Numbered, Coordinates | Standard: Numbered
+    # (Optional) Zeichen(-kette), die x- und y-Koordinate in Punktwolken-Dateinamen trennt
+    ID_TRENNUNG:  # Standard: _
+    # Größe der von den Punktwolken abgedeckten Bereiche in m
+    KACHELGROESSE: 50
+  # Pfad zur .shp- oder .gpkg-Datei mit den Aggregationsflächen
+  AGGREGATIONSFLAECHEN: /Pfad/zu/Aggregationsflaechen.gpkg
+  # (Optional) Pfad zur .shp- oder .gpkg-Datei mit zusätzlichen Fahrspuren
+  PSEUDO_AUFNAHMESPUREN:
+
+# (Optional) Wenn True, werden bereits verarbeitete Bereiche neu berechnet
+CACHE_IGNORIEREN:  # Mögliche Werte: True, False | Standard: False
+
+# Pfad zum Basisverzeichnis der Ausgabedaten
+AUSGABEVERZEICHNIS: /Pfad/zum/Ausgabeverzeichnis
+
+# (Optional) Wenn True, werden Orthos gespeichert
+ORTHOS_SPEICHERN:  # Mögliche Werte: True, False | Standard: True
+
+# (Optional) EPSG-Code des Koordinatenreferenzsystems
+EPSG_CODE:  # Standard: 25832
+
+# (Optional) Spezifikation der Nachverarbeitung
+NACHVERARBEITUNG:
+  # (Optional) Wenn True, werden Geometrien vereinfacht
+  GEOMETRIEN_VEREINFACHEN:  # Mögliche Werte: True, False | Standard: False
+  # (Optional) Spezifikation der Parameter für die Straßenmarkierungsbewertung
+  STRASSENMARKIERUNGEN:
+    SCHWELLENWERTE:
+      # Schwellenwerte für die Einzelmarkierungsbewertung
+      EINZELMARKIERUNGEN:
+        # Anteil an schlechten Markierungen, ab dem die Kachel als schlecht gilt
+        SCHLECHT: 0.25
+        # Anteil an mittleren oder schlechten Markierungen, ab dem die Kachel als mittel gilt
+        MITTEL: 0.25
+
+  # (Optional) Spezifikation der Parameter für die Straßenzustandsbewertung
+  STRASSENZUSTAND:
+    # Normierungsfaktoren gemäß AP9 K
+    NORMIERUNGSFAKTOREN:
+      ASPHALT:
+        # Normierungsfaktoren für das Maximum der Stichmaße in Lattenmitte unter der 4m-Latte in mm
+        SM4L_M:
+          FUNKTIONSKLASSE_A:
+            1_5_WERT: 4.0
+            WARNWERT: 12.0
+            SCHWELLENWERT: 16.0
+          FUNKTIONSKLASSE_B:
+            1_5_WERT: 4.0
+            WARNWERT: 16.0
+            SCHWELLENWERT: 25.0
+        # Normierungsfaktoren für den Mittelwert der Stichmaße in Lattenmitte unter der 4m-Latte in mm
+        SM4L_A:
+          FUNKTIONSKLASSE_A:
+            1_5_WERT: 1.0
+            WARNWERT: 2.5
+            SCHWELLENWERT: 3.5
+          FUNKTIONSKLASSE_B:
+            1_5_WERT: 1.0
+            WARNWERT: 3.5
+            SCHWELLENWERT: 5.0
+        # Normierungsfaktoren für das Maximum der Mittelwerte der linken und rechten Spurrinnentiefen in mm
+        MSPT:
+          FUNKTIONSKLASSE_A:
+            1_5_WERT: 4.0
+            WARNWERT: 15.0
+            SCHWELLENWERT: 25.0
+          FUNKTIONSKLASSE_B:
+            1_5_WERT: 4.0
+            WARNWERT: 15.0
+            SCHWELLENWERT: 25.0
+        # Normierungsfaktoren für das Maximum der Mittelwerte der linken und rechten fiktiven Wassertiefen in mm
+        MSPH:
+          FUNKTIONSKLASSE_A:
+            1_5_WERT: 0.1
+            WARNWERT: 4.0
+            SCHWELLENWERT: 6.0
+          FUNKTIONSKLASSE_B:
+            1_5_WERT: 0.1
+            WARNWERT: 4.0
+            SCHWELLENWERT: 6.0
+        # Normierungsfaktoren für den Anteil der durch Risse betroffenen Fläche in %
+        RISS:
+          FUNKTIONSKLASSE_A:
+            1_5_WERT: 1
+            WARNWERT: 15
+            SCHWELLENWERT: 25
+          FUNKTIONSKLASSE_B:
+            1_5_WERT: 5
+            WARNWERT: 20
+            SCHWELLENWERT: 33
+          FUNKTIONSKLASSE_N:
+            1_5_WERT: 5
+            WARNWERT: 20
+            SCHWELLENWERT: 33
+        # Normierungsfaktoren für den Anteil der durch aufgelegte Flickstellen betroffenen Fläche in %
+        AFLI:
+          FUNKTIONSKLASSE_A:
+            1_5_WERT: 1
+            WARNWERT: 15
+            SCHWELLENWERT: 25
+          FUNKTIONSKLASSE_B:
+            1_5_WERT: 5
+            WARNWERT: 20
+            SCHWELLENWERT: 33
+          FUNKTIONSKLASSE_N:
+            1_5_WERT: 5
+            WARNWERT: 20
+            SCHWELLENWERT: 33
+        # Normierungsfaktoren für den Anteil der durch sonstige Oberflächenschäden betroffenen Fläche in %
+        OFS:
+          FUNKTIONSKLASSE_A:
+            1_5_WERT: 1
+            WARNWERT: 15
+            SCHWELLENWERT: 25
+          FUNKTIONSKLASSE_B:
+            1_5_WERT: 10
+            WARNWERT: 33
+            SCHWELLENWERT: 50
+          FUNKTIONSKLASSE_N:
+            1_5_WERT: 10
+            WARNWERT: 33
+            SCHWELLENWERT: 50
+      PFLASTER_PLATTEN:
+        # Normierungsfaktoren für das Maximum der Stichmaße in Lattenmitte unter der 4m-Latte in mm
+        SM4L_M:
+          FUNKTIONSKLASSE_A:
+            1_5_WERT: 4.0
+            WARNWERT: 12.0
+            SCHWELLENWERT: 16.0
+          FUNKTIONSKLASSE_B:
+            1_5_WERT: 4.0
+            WARNWERT: 16.0
+            SCHWELLENWERT: 25.0
+        # Normierungsfaktoren für den Mittelwert der Stichmaße in Lattenmitte unter der 4m-Latte in mm
+        SM4L_A:
+          FUNKTIONSKLASSE_A:
+            1_5_WERT: 1.0
+            WARNWERT: 2.5
+            SCHWELLENWERT: 3.5
+          FUNKTIONSKLASSE_B:
+            1_5_WERT: 1.0
+            WARNWERT: 3.5
+            SCHWELLENWERT: 5.0
+        # Normierungsfaktoren für das Maximum der Mittelwerte der linken und rechten Spurrinnentiefen in mm
+        MSPT:
+          FUNKTIONSKLASSE_A:
+            1_5_WERT: 4.0
+            WARNWERT: 15.0
+            SCHWELLENWERT: 25.0
+          FUNKTIONSKLASSE_B:
+            1_5_WERT: 4.0
+            WARNWERT: 15.0
+            SCHWELLENWERT: 25.0
+        # Normierungsfaktoren für das Maximum der Mittelwerte der linken und rechten fiktiven Wassertiefen in mm
+        MSPH:
+          FUNKTIONSKLASSE_A:
+            1_5_WERT: 0.1
+            WARNWERT: 4.0
+            SCHWELLENWERT: 6.0
+          FUNKTIONSKLASSE_B:
+            1_5_WERT: 0.1
+            WARNWERT: 4.0
+            SCHWELLENWERT: 6.0
+        # Normierungsfaktoren für den Anteil der durch sonstige Oberflächenschäden betroffenen Fläche in %
+        OFS:
+          FUNKTIONSKLASSE_A:
+            1_5_WERT: 1
+            WARNWERT: 15
+            SCHWELLENWERT: 25
+          FUNKTIONSKLASSE_B:
+            1_5_WERT: 5
+            WARNWERT: 25
+            SCHWELLENWERT: 40
+          FUNKTIONSKLASSE_N:
+            1_5_WERT: 5
+            WARNWERT: 25
+            SCHWELLENWERT: 40
+    # Gewichtungsfaktoren gemäß AP9 K
+    GEWICHTUNGSFAKTOREN:
+      ASPHALT:
+        GEBRAUCHSWERT:
+          ZWSM4L: 0.25
+          ZWMSPT: 0.5
+          ZWMSPH: 0.25
+        SUBSTANZWERT:
+          ZWRISS: 0.56
+          ZWAFLI: 0.31
+          ZWOFS: 0.13
+      PFLASTER_PLATTEN:
+        GEBRAUCHSWERT:
+          ZWSM4L: 0.25
+          ZWMSPT: 0.5
+          ZWMSPH: 0.25
