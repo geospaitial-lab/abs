@@ -14,11 +14,6 @@ from src.GSC_Utils import LaserData, concatenate_laserdata
 
 tile_size = 50  # in m
 
-las_dir = "/data/NAS-ML/RoadCondition/Bildbefahrung_Bocholt/Gesamt/Bocholt2021 Rohdaten (Punktwolke)"
-save_dir = "/data/NAS-ML/RoadCondition/Bocholt2021 Tiled LAZ Test"
-
-query_shapefile_path = "/data/NAS-ML/RoadCondition/Bocholt2021 Shapes Test/bocholt_pointcloud_query_area.gpkg"
-
 
 def retile_pointclouds(args_):
     meta_path = args_.meta_path
