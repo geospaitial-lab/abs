@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="data/logos/abs.svg" alt="abs" width="35%"/>
+  <img src="data/logos/abs.svg" alt="abs" width="50%"/>
 </div>
 
 ---
