@@ -40,7 +40,7 @@ Die Software basiert auf Vorarbeiten aus dem [GeoSmartChange-Projekt](https://ww
 
 # Installation
 
-**Hardwarevoraussetzungen:** CPU mit mind. 8 Kernen und mind. 8GB RAM
+**Hardwarevoraussetzungen:** CPU mit mind. 8 Kernen und mind. 128GB RAM
 
 Installieren Sie zunächst [Docker](https://docker.com/products/docker-desktop).  
 Laden Sie anschließend das [*abs()* Dockerfile](Dockerfile) herunter.  
