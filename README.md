@@ -4,13 +4,13 @@
 
 ---
 
-*abs* - Automatisierte Bewertung von Straßen - ermittelt mit Methoden künstlicher Intelligenz den Zustand von Straßen
+*abs()* - Automatisierte Bewertung von Straßen - ermittelt mit Methoden künstlicher Intelligenz den Zustand von Straßen
 und Straßenmarkierungen.  
 Dazu werden aus einem digitalen Zwilling der Straße, bestehend aus Panoramas und Punktwolken, Daten extrahiert,
 klassifiziert und bewertet.
 Diese können anschließend als Planungsgrundlage für das kommunale Instandhaltungsmanagement der Straßen genutzt werden.
 
-*abs* ist im Rahmen einer Auftragsforschung kommunaler Partner entstanden und wurde von der
+*abs()* ist im Rahmen einer Auftragsforschung kommunaler Partner entstanden und wurde von der
 [Westfälischen Hochschule Gelsenkirchen](https://w-hs.de) entwickelt.  
 Die kommunalen Partner waren der Kreis Recklinghausen und die Städte Bocholt, Bottrop, Dorsten, Gelsenkirchen,
 Haltern, Herten, Marl und Recklinghausen.
@@ -43,8 +43,8 @@ Die Software basiert auf Vorarbeiten aus dem [GeoSmartChange-Projekt](https://ww
 **Hardwarevoraussetzungen:** CPU mit mind. 8 Kernen und mind. 8GB RAM
 
 Installieren Sie zunächst [Docker](https://docker.com/products/docker-desktop).  
-Laden Sie anschließend das [*abs* Dockerfile](Dockerfile) herunter.  
-Erstellen Sie nun das *abs* Image.
+Laden Sie anschließend das [*abs()* Dockerfile](Dockerfile) herunter.  
+Erstellen Sie nun das *abs()* Image.
 
 ```
 docker build -f </Pfad/zu/Dockerfile> -t abs .
