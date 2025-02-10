@@ -1,4 +1,5 @@
 astropy==5.2.2
+fiona==1.9.6
 geopandas==0.13.2
 huggingface_hub[cli]==0.20.3
 laspy[lazrs]==2.5.3
