@@ -892,14 +892,22 @@ def preprocess_tile(las_filename, tile_bounds, tile_pixel_size, las_dir, image_d
     # Calculate Orthos for each cluster / height layer
     for height_layer, layer_infos in enumerate(tile_info_clusters):
         layer_points = tile_point_clusters[height_layer]  # Select points for layer
+        if len(layer_points) == 0:
+            continue
 
         # Classify and filter ground in pointclouds
         ground_mask = Ortho_Creation_Utils.classify_ground(layer_points, tile_bounds, 250)
         filtered_points = layer_points[ground_mask == 1]
 
+        if len(filtered_points) == 0:
+            continue
+
         # Classify and remove outliers in pointclouds
         outlier_mask = Ortho_Creation_Utils.classify_outliers_in_laserdata(filtered_points, radius=0.5, threshold=20)
         filtered_points = filtered_points[outlier_mask != 1]
+
+        if len(filtered_points) == 0:
+            continue
 
         planeness_sampling_points_tile_layer = \
             planeness_sampling_points_tile[planeness_sampling_points_tile["recording_id"].isin(
