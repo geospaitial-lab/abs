@@ -520,7 +520,12 @@ def stop_condition(distances):
     :returns: True, if all distances are equal to 0 or less than 0
     :rtype: bool
     """
-    return np.amax(distances) < 1e-12
+    distance_max = np.amax(distances)
+
+    if np.isnan(distance_max):
+        raise ValueError("Max distance is NaN.")
+
+    return distance_max < 1e-12
 
 
 def get_planeness_values_longitudinal(heights, window_size=41):

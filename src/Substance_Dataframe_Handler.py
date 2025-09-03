@@ -5,6 +5,8 @@ import numpy as np
 import pandas as pd
 from shapely.geometry import box
 
+from datetime import datetime
+
 pd.options.mode.chained_assignment = None
 
 
@@ -343,7 +345,9 @@ def process_gdf_substance(gdf_substance,
     if mode not in ['asphalt', 'pflaster_platten']:
         raise ValueError('mode must be either asphalt or pflaster_platten!')
 
+    print(f"sieve_gdf: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     gdf_substance = sieve_gdf(gdf=gdf_substance)
+    print(f"clip_gdf: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     gdf_substance = clip_gdf(gdf=gdf_aggregation_areas, gdf_substance=gdf_substance)
 
     bounding_box = gdf_aggregation_areas.total_bounds
@@ -356,20 +360,24 @@ def process_gdf_substance(gdf_substance,
     gdf_grid = get_gdf_grid(bounding_box=bounding_box,
                             crs=crs)
 
+    print(f"sjoin_gdf: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     gdf_grid = gpd.sjoin(gdf_grid,
                          gdf_aggregation_areas,
                          how='inner',
                          predicate='intersects')
     gdf_grid = gdf_grid[['geometry']].reset_index(drop=True)
 
+    print(f"subaggregate_gdf: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     gdf_subaggregated = subaggregate_gdf(gdf_grid=gdf_grid,
                                          gdf_substance=gdf_substance,
                                          mode=mode)
 
+    print(f"aggregate_gdf: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     gdf_aggregated = aggregate_gdf(gdf_aggregation_areas=gdf_aggregation_areas,
                                    gdf_subaggregated=gdf_subaggregated,
                                    mode=mode)
 
+    print(f"get_ap9_compliant_gdf: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     gdf_aggregated = get_ap9_compliant_gdf(gdf=gdf_aggregated,
                                            mode=mode)
 

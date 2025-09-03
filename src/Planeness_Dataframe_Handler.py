@@ -6,6 +6,8 @@ import pandas as pd
 from scipy.interpolate import interp1d
 from shapely import LineString
 
+from datetime import datetime
+
 from src.Planeness_Utils import (
     get_clustered_planeness_values_longitudinal,
     get_clustered_planeness_values_transverse)
@@ -518,25 +520,33 @@ def process_gdf_planeness(gdf_planeness,
     """
     df = preprocess_gdf(gdf=gdf_planeness)
 
+    print(f"get_clustered_heights_longitudinal: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     clustered_heights_longitudinal = get_clustered_heights_longitudinal(df=df)
+    print(f"get_clustered_heights_transverse: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     clustered_heights_transverse = get_clustered_heights_transverse(df=df)
 
+    print(f"get_clustered_planeness_values_longitudinal: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     clustered_planeness_values_longitudinal = get_clustered_planeness_values_longitudinal(
         clustered_heights=clustered_heights_longitudinal)
+    print(f"get_clustered_planeness_values_transverse: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     clustered_planeness_values_transverse = get_clustered_planeness_values_transverse(
         clustered_heights=clustered_heights_transverse)
 
+    print(f"get_gdf_longitudinal: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     gdf_longitudinal = get_gdf_longitudinal(gdf=gdf_planeness,
                                             planeness_values_longitudinal=clustered_planeness_values_longitudinal,
                                             crs=crs)
+    print(f"get_gdf_transverse: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     gdf_transverse = get_gdf_transverse(gdf=gdf_planeness,
                                         planeness_values_transverse=clustered_planeness_values_transverse,
                                         crs=crs)
 
+    print(f"aggregate_gdf: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     gdf_aggregated = aggregate_gdf(gdf_aggregation_areas=gdf_aggregation_areas,
                                    gdf_longitudinal=gdf_longitudinal,
                                    gdf_transverse=gdf_transverse)
 
+    print(f"get_ap9_compliant_gdf: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     gdf_aggregated = get_ap9_compliant_gdf(gdf=gdf_aggregated)
 
     columns = ['SM4L_M', 'SM4L_A', 'S01', 'S03', 'S10', 'S30', 'LN', 'MSPTL', 'MSPTR', 'MSPT', 'SPTMAX',
