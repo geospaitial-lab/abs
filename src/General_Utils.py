@@ -1242,11 +1242,17 @@ def process_files(las_files, parsed_config):
         query_shapefile = query_shapefile[shapefile.columns].reset_index(drop=True)
         parsed_config["recording_points"]["file"] = query_shapefile
 
-    planeness_sampling_points = create_planeness_sampling_points(gdf=parsed_config["recording_points"]["file"],
-                                                                 id_column=parsed_config["recording_points"]["id_key"],
-                                                                 id_base=parsed_config["recording_points"]["id_base"],
-                                                                 gdf_pseudo_lanes=parsed_config["pseudo_lanes"],
-                                                                 crs=parsed_config["crs"])
+    if os.path.exists(os.path.join(parsed_config["out_dir"], "Geodaten", "Cache", "Planeness",
+                                   "planeness.feather")):
+        planeness_sampling_points = gpd.read_feather(
+            os.path.join(parsed_config["out_dir"], "Geodaten", "Cache", "Planeness",
+                         "planeness.feather"))
+    else:
+        planeness_sampling_points = create_planeness_sampling_points(gdf=parsed_config["recording_points"]["file"],
+                                                                     id_column=parsed_config["recording_points"]["id_key"],
+                                                                     id_base=parsed_config["recording_points"]["id_base"],
+                                                                     gdf_pseudo_lanes=parsed_config["pseudo_lanes"],
+                                                                     crs=parsed_config["crs"])
 
     for i, las_file in enumerate(las_files):
         print(f"Verarbeite Kachel Nr. {i + 1} von {total_files} mit ID "
