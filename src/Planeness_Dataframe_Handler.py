@@ -74,6 +74,8 @@ def interpolate_heights(heights):
                                    fill_value='extrapolate')
 
             heights[nan_index_row] = interpolate(np.arange(heights.shape[1]))
+        else:
+            heights[nan_index_row] = np.nan
 
     return heights
 
@@ -122,6 +124,7 @@ def get_heights_longitudinal(df_longitudinal):
     :rtype: np.ndarray[np.float64]
     """
     heights_longitudinal = np.array(df_longitudinal['z']).reshape(-1, 5)
+    heights_longitudinal = interpolate_heights(heights_longitudinal)
 
     return interpolate_heights(heights_longitudinal.T).T
 
