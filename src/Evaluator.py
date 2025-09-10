@@ -490,3 +490,73 @@ def evaluate(gdf_planeness,
     gdf_evaluated = concatenate_gdfs(gdfs_evaluated)
 
     return gdf_evaluated
+
+
+def reevaluate(gdf,
+               normalization_factors,
+               weighting_factors):
+    gdfs_evaluated = []
+
+    gdf_asphalt = gdf[gdf['BW'] == 'A']
+
+    if not gdf_asphalt.empty:
+        gdf_asphalt_a = mask_gdf(gdf_asphalt,
+                                 column='FK',
+                                 value='A')
+        gdf_asphalt_b = mask_gdf(gdf_asphalt,
+                                 column='FK',
+                                 value='B')
+        gdf_asphalt_n = mask_gdf(gdf_asphalt,
+                                 column='FK',
+                                 value='N')
+
+        gdf_evaluated_asphalt_a = evaluate_gdf_asphalt(gdf_asphalt_a,
+                                                       normalization_factors=normalization_factors,
+                                                       weighting_factors=weighting_factors,
+                                                       mode='A')
+        gdf_evaluated_asphalt_b = evaluate_gdf_asphalt(gdf_asphalt_b,
+                                                       normalization_factors=normalization_factors,
+                                                       weighting_factors=weighting_factors,
+                                                       mode='B')
+        gdf_evaluated_asphalt_n = evaluate_gdf_asphalt(gdf_asphalt_n,
+                                                       normalization_factors=normalization_factors,
+                                                       weighting_factors=weighting_factors,
+                                                       mode='N')
+
+        gdfs_evaluated.extend([gdf_evaluated_asphalt_a,
+                               gdf_evaluated_asphalt_b,
+                               gdf_evaluated_asphalt_n])
+
+    gdf_pflaster_platten = gdf[gdf['BW'] == 'P']
+
+    if not gdf_pflaster_platten.empty:
+        gdf_pflaster_platten_a = mask_gdf(gdf_pflaster_platten,
+                                          column='FK',
+                                          value='A')
+        gdf_pflaster_platten_b = mask_gdf(gdf_pflaster_platten,
+                                          column='FK',
+                                          value='B')
+        gdf_pflaster_platten_n = mask_gdf(gdf_pflaster_platten,
+                                          column='FK',
+                                          value='N')
+
+        gdf_evaluated_pflaster_platten_a = evaluate_gdf_pflaster_platten(gdf_pflaster_platten_a,
+                                                                         normalization_factors=normalization_factors,
+                                                                         weighting_factors=weighting_factors,
+                                                                         mode='A')
+        gdf_evaluated_pflaster_platten_b = evaluate_gdf_pflaster_platten(gdf_pflaster_platten_b,
+                                                                         normalization_factors=normalization_factors,
+                                                                         weighting_factors=weighting_factors,
+                                                                         mode='B')
+        gdf_evaluated_pflaster_platten_n = evaluate_gdf_pflaster_platten(gdf_pflaster_platten_n,
+                                                                         normalization_factors=normalization_factors,
+                                                                         weighting_factors=weighting_factors,
+                                                                         mode='N')
+
+        gdfs_evaluated.extend([gdf_evaluated_pflaster_platten_a,
+                               gdf_evaluated_pflaster_platten_b,
+                               gdf_evaluated_pflaster_platten_n])
+
+    gdf_evaluated = concatenate_gdfs(gdfs_evaluated)
+
+    return gdf_evaluated
