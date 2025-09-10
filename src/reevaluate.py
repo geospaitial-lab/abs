@@ -30,7 +30,10 @@ def main(args_):
                                normalization_factors=parsed_config["roadcondition"]["normalization_factors"],
                                weighting_factors=parsed_config["roadcondition"]["weighting_factors"])
 
-    gdf_evaluated.to_file(os.path.join(parsed_config["out_dir"], "Geodaten", "Strassenzustand.gpkg"), driver="GPKG")
+    if args.out_path is not None:
+        gdf_evaluated.to_file(args.out_path, driver="GPKG")
+    else:
+        gdf_evaluated.to_file(os.path.join(parsed_config["out_dir"], "Geodaten", "Strassenzustand.gpkg"), driver="GPKG")
 
     print(f"Evaluierung abgeschlossen in {time.perf_counter() - start_time} s.")
 
@@ -38,6 +41,7 @@ def main(args_):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="abs - Neugewichtung")
     parser.add_argument("config", help="Konfigurationsdatei")
+    parser.add_argument("out_path", help="Pfad zur Ausgabedatei", default=None)
 
     args = parser.parse_args()
 
